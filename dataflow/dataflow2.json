@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Json1",
+						"referenceName": "DelimitedText8",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -43,8 +43,10 @@
 				"          TransactionDate = toDate(toTimestamp(TransactionDate,'yyyy-MM-dd HH:mm:ss'))) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['transaction'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
