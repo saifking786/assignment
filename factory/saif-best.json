@@ -1,0 +1,9 @@
+{
+	"name": "saif-best",
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8e5b7a87-b14c-4f65-9ada-9980dbfe1fd0",
+		"tenantId": "70c45d09-fb8c-4595-a3d2-cac3e06a5c62"
+	}
+}
