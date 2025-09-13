@@ -1,0 +1,72 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText5",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText6",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as integer,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          Email as string,",
+				"          Phone as string,",
+				"          SignupDate as string,",
+				"          LoyaltyTier as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(SignupDate = toDate(SignupDate,'yyyy-MM-dd'),",
+				"          CustomerID = toInteger(CustomerID),",
+				"          Email = ",
+				"regexMatch(",
+				"    iif(isNull(Email), '', toString(Email)),",
+				"    '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}'",
+				")",
+				"",
+				"",
+				",",
+				"          Phone = replace(Phone,",
+				"        '[^0-9+]',''),",
+				"          LoyaltyTier = lower(LoyaltyTier)) ~> derivedColumn1",
+				"derivedColumn1 filter(!isNull(CustomerID) ",
+				"&& !isNull(FirstName) ",
+				"&& !isNull(LastName) ",
+				"&& !isNull(Email) ",
+				"&& !isNull(Phone) ",
+				"&& !isNull(SignupDate) ",
+				"&& !isNull(LoyaltyTier)) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

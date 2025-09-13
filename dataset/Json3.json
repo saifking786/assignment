@@ -1,0 +1,38 @@
+{
+	"name": "Json3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage9",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "weblogs.json",
+				"container": "bronze"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"SessionID": {
+					"type": "string"
+				},
+				"CustomerID": {
+					"type": "integer"
+				},
+				"Timestamp": {
+					"type": "string"
+				},
+				"PageVisited": {
+					"type": "string"
+				},
+				"DurationSeconds": {
+					"type": "integer"
+				}
+			}
+		}
+	}
+}
