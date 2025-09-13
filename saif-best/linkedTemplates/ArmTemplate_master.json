@@ -47,6 +47,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'put1'"
 		},
+		"AzureBlobStorage11_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage11'"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -103,6 +107,9 @@
 					},
 					"put1_connectionString": {
 						"value": "[parameters('put1_connectionString')]"
+					},
+					"AzureBlobStorage11_connectionString": {
+						"value": "[parameters('AzureBlobStorage11_connectionString')]"
 					}
 				}
 			},

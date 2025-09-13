@@ -35,6 +35,9 @@
 		"put1_connectionString": {
 			"value": ""
 		},
+		"AzureBlobStorage11_connectionString": {
+			"value": ""
+		},
 		"containerUri": {
 			"value": ""
 		},
