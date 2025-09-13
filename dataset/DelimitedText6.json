@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "customers_latest.csv",
 				"container": "silver"
 			},
 			"columnDelimiter": ",",
