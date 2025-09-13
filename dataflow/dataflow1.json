@@ -53,8 +53,7 @@
 				"    Phone,",
 				"    '(?<!^)[^0-9]', ",
 				"    ''",
-				")",
-				",",
+				"),",
 				"          LoyaltyTier = lower(LoyaltyTier)) ~> derivedColumn1",
 				"derivedColumn1 filter(!isNull(CustomerID) ",
 				"&& !isNull(FirstName) ",
@@ -65,8 +64,10 @@
 				"&& !isNull(LoyaltyTier)) ~> filter1",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['customers.csv'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
