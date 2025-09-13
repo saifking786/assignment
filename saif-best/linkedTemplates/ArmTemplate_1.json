@@ -108,6 +108,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"folderPath": "weblogsdirectory",
 						"container": "silver"
 					}
 				},
@@ -163,12 +164,16 @@
 						"     ignoreNoFilesFound: false) ~> source1",
 						"source1 derive(SignupDate = toDate(SignupDate,'yyyy-MM-dd'),",
 						"          CustomerID = toInteger(CustomerID),",
-						"          Email = regexMatch(",
-						"    iif(isNull(Email), '', toString(Email)),",
-						"    '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}'",
+						"          Email = iif(",
+						"    regexMatch(toString(Email), '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}'),",
+						"    'VALID',",
+						"    'INVALID'",
 						"),",
-						"          Phone = replace(Phone,",
-						"        '[^0-9+]',''),",
+						"          Phone = replace(",
+						"    Phone,",
+						"    '(?<!^)[^0-9]', ",
+						"    ''",
+						"),",
 						"          LoyaltyTier = lower(LoyaltyTier)) ~> derivedColumn1",
 						"derivedColumn1 filter(!isNull(CustomerID) ",
 						"&& !isNull(FirstName) ",
@@ -290,8 +295,10 @@
 						"derivedColumn1 filter(!isNull(CustomerID)) ~> filter1",
 						"filter1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     partitionFileNames:['weblogs.json'],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
 					]
 				}
 			},
@@ -307,7 +314,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "dataflow1",
+						"name": "dataflow3",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -320,7 +327,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "dataflow1",
+								"referenceName": "dataflow3",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -343,7 +350,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow1')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow3')]"
 			]
 		}
 	]

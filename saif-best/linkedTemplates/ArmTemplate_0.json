@@ -467,7 +467,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "customers_latest.csv",
+						"folderPath": "customers",
 						"container": "silver"
 					},
 					"columnDelimiter": ",",
@@ -552,6 +552,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"folderPath": "transaction",
 						"container": "silver"
 					}
 				},
